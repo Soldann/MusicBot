@@ -5,9 +5,13 @@ import com.jagrosh.jmusicbot.commands.DJCommand;
 import com.jagrosh.jdautilities.command.CommandEvent;
 import com.jagrosh.jmusicbot.commands.dj.ForceskipCmd;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 public class PlayskipCmd extends PlaynextCmd {
 
     private ForceskipCmd skip;
+    private Timer timer;
     public PlayskipCmd(Bot bot)
     {
         super(bot);
@@ -17,12 +21,19 @@ public class PlayskipCmd extends PlaynextCmd {
         this.beListening = true;
         this.bePlaying = true;
         this.skip = new ForceskipCmd(bot);
+        this.timer = new Timer();
     }
 
     @Override
     public void doCommand(CommandEvent event)
     {
         super.doCommand(event);
-        skip.doCommand(event);
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+              // Your database code here
+              skip.doCommand(event);
+            }
+          }, 2*1000);
     }
 }
